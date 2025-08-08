@@ -49,4 +49,8 @@ public class Usuario {
 
     private boolean prioritario;
 
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Grupo grupo;
+
 }
