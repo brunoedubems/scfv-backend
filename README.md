@@ -60,15 +60,17 @@ O sistema original foi implementado em **Laravel** durante meu estágio, focado 
 src/
 └── main/
     ├── java/
-    │   └── br.com.seuprojeto/
+    │   └── br.com.brunoedubems.scfv_backend/
     │       ├── controller/
     │       ├── service/
     │       ├── repository/
-    │       ├── model/
+    │       ├── entity/
     │       ├── dto/
-    │       └── config/
+    │       └── exception/
     └── resources/
-        ├── application.properties
+│       ├── application.properties
+│       ├── application-dev.properties
+│       └── application-prod.properties
         └── db/migration/ (Flyway)
 ```
 
@@ -84,11 +86,8 @@ src/
 
 2. **Configure o `application.properties`**
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/scfv
-   spring.datasource.username=seu_usuario
-   spring.datasource.password=sua_senha
-   spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-   spring.jpa.hibernate.ddl-auto=create
+    spring.application.name=scfv-backend
+    spring.profiles.active=dev
    ```
 
 3. **Execute o projeto com Maven**
