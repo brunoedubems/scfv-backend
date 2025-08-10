@@ -61,6 +61,7 @@ src/
 └── main/
     ├── java/
     │   └── br.com.brunoedubems.scfv_backend/
+    │       ├── mapper/
     │       ├── controller/
     │       ├── service/
     │       ├── repository/
@@ -68,9 +69,9 @@ src/
     │       ├── dto/
     │       └── exception/
     └── resources/
-│       ├── application.properties
-│       ├── application-dev.properties
-│       └── application-prod.properties
+        ├── application.properties
+        ├── application-dev.properties
+        └── application-prod.properties
         └── db/migration/ (Flyway)
 ```
 
