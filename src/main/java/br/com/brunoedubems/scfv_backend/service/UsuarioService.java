@@ -6,7 +6,6 @@ import br.com.brunoedubems.scfv_backend.exception.ResourceNotFoundException;
 import br.com.brunoedubems.scfv_backend.mapper.UsuarioMapper;
 import br.com.brunoedubems.scfv_backend.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

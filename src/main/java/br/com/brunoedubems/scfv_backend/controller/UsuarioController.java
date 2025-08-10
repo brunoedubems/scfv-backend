@@ -19,11 +19,6 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
     private final GrupoService grupoService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GrupoDTO> findById(@PathVariable Long id) {
-        GrupoDTO dto = grupoService.findById(id);
-        return ResponseEntity.ok(dto);
-    }
 
     @GetMapping()
     public ResponseEntity<List<UsuarioDTO>> mostrarTodosOsUsuarios() {
@@ -50,16 +45,16 @@ public class UsuarioController {
             return ResponseEntity.ok(usuario);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Ninja com id: " + id + " não existe");
+                    .body("Usuario com id: " + id + " não existe");
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletaUsuarioPorId(@PathVariable Long id){
-        if(usuarioService.listarUsuarios() != null){
+    public ResponseEntity<String> deletaUsuarioPorId(@PathVariable Long id) {
+        if (usuarioService.listarUsuarios() != null) {
             usuarioService.deletarUsuarioPorId(id);
-            return  ResponseEntity.ok("Usuario com o id " + id + " deletado com sucesso");
-        }else {
+            return ResponseEntity.ok("Usuario com o id " + id + " deletado com sucesso");
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("O usuario com o id " + id + " não encontrado");
         }

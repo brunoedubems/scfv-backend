@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GrupoMapper {
 
+    private final GrupoMapper grupoMapper;
     private final UsuarioMapper usuarioMapper;
 
     public GrupoDTO toDTO(Grupo grupo) {
