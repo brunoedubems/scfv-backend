@@ -50,15 +50,9 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletaUsuarioPorId(@PathVariable Long id) {
-        if (usuarioService.listarUsuarios() != null) {
-            usuarioService.deletarUsuarioPorId(id);
-            return ResponseEntity.ok("Usuario com o id " + id + " deletado com sucesso");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("O usuario com o id " + id + " não encontrado");
-        }
+    public ResponseEntity<Void> deletaUsuarioPorId(@PathVariable Long id) {
+        usuarioService.deletaUsuarioPorId(id);
+        return ResponseEntity.noContent().build();
     }
-
 
 }

@@ -2,6 +2,7 @@ package br.com.brunoedubems.scfv_backend.dto;
 
 import br.com.brunoedubems.scfv_backend.entity.Grupo;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,17 +16,32 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UsuarioDTO {
 
-    private Long id;
-    private String nome;
-    private LocalDate dataNascimento;
-    private String cpf;
-    private String nis;
+    Long id;
+
+    @NotBlank(message = "O nome é obrigatório")
+    @Size(max = 100, message = "O nome deve ter no máximo 100 caracteres")
+    String nome;
+
+    @NotNull(message = "A data de nascimento é obrigatória")
+    @Past(message = "A data de nascimento deve estar no passado")
+    LocalDate dataNascimento;
+
+    @NotBlank(message = "O CPF é obrigatório")
+    @Size(min = 11, max = 11, message = "O CPF deve ter exatamente 11 dígitos")
+    @Pattern(regexp = "\\d{11}", message = "O CPF deve conter apenas números")
+    String cpf;
+
+    @NotBlank(message = "O NIS é obrigatório")
+    @Size(min = 11, max = 11, message = "O NIS deve ter exatamente 11 dígitos")
+    @Pattern(regexp = "\\d{11}", message = "O NIS deve conter apenas números")
+    String nis;
+
     private String rg;
     private String sexo;
     private String telefone;
     private String nomeMae;
     private String nomeResponsavel;
     private boolean prioritario;
-    private GrupoDTO grupo;
+    Long grupoId;
 
 }

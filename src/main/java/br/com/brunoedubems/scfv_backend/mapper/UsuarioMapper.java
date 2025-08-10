@@ -1,6 +1,7 @@
 package br.com.brunoedubems.scfv_backend.mapper;
 
 import br.com.brunoedubems.scfv_backend.dto.UsuarioDTO;
+import br.com.brunoedubems.scfv_backend.entity.Grupo;
 import br.com.brunoedubems.scfv_backend.entity.Usuario;
 import org.springframework.stereotype.Component;
 
@@ -42,12 +43,29 @@ public class UsuarioMapper {
         usuario.setNomeResponsavel(dto.getNomeResponsavel());
         usuario.setPrioritario(dto.isPrioritario());
 
-        // Aqui você precisaria setar o Grupo a partir do grupoId, se quiser,
-        // provavelmente buscando no banco ou passando o objeto Grupo
-        // Por enquanto, vamos deixar nulo para evitar erros
-        usuario.setGrupo(null);
+        if (usuario.getGrupo() != null) {
+            dto.setId(usuario.getGrupo().getId());
+        }
 
         return usuario;
     }
+
+    public static Usuario toEntity(UsuarioDTO dto, Grupo grupo) {
+        Usuario usuario = new Usuario();
+        usuario.setId(dto.getId());
+        usuario.setNome(dto.getNome());
+        usuario.setDataNascimento(dto.getDataNascimento());
+        usuario.setCpf(dto.getCpf());
+        usuario.setNis(dto.getNis());
+        usuario.setRg(dto.getRg());
+        usuario.setSexo(dto.getSexo());
+        usuario.setTelefone(dto.getTelefone());
+        usuario.setNomeMae(dto.getNomeMae());
+        usuario.setNomeResponsavel(dto.getNomeResponsavel());
+        usuario.setPrioritario(dto.isPrioritario());
+        usuario.setGrupo(grupo);
+        return usuario;
+    }
+
 
 }
