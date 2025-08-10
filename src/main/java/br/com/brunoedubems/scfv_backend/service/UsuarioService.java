@@ -1,9 +1,11 @@
 package br.com.brunoedubems.scfv_backend.service;
 
 import br.com.brunoedubems.scfv_backend.dto.UsuarioDTO;
+import br.com.brunoedubems.scfv_backend.entity.Grupo;
 import br.com.brunoedubems.scfv_backend.entity.Usuario;
 import br.com.brunoedubems.scfv_backend.exception.ResourceNotFoundException;
 import br.com.brunoedubems.scfv_backend.mapper.UsuarioMapper;
+import br.com.brunoedubems.scfv_backend.repository.GrupoRepository;
 import br.com.brunoedubems.scfv_backend.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final GrupoRepository grupoRepository;
 
     @Transactional(readOnly = true)
     public UsuarioDTO findById(Long id) {
@@ -27,7 +30,8 @@ public class UsuarioService {
         return usuarioMapper.toDTO(usuario);
     }
 
-    public UsuarioDTO inserir(UsuarioDTO usuarioDTO){
+    @Transactional(readOnly = true)
+    public UsuarioDTO inserir(UsuarioDTO usuarioDTO) {
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         usuario = usuarioRepository.save(usuario);
 
@@ -35,24 +39,32 @@ public class UsuarioService {
 
     }
 
-    public List<UsuarioDTO> listarUsuarios(){
+    @Transactional(readOnly = true)
+    public List<UsuarioDTO> listarUsuarios() {
         List<Usuario> usuarios = usuarioRepository.findAll();
-        return usuarios.stream().map(usuarioMapper::toDTO)
-                .collect(Collectors.toList());
+        return usuarios.stream().map(usuarioMapper::toDTO).toList();
     }
 
-    public UsuarioDTO atualizaUsuario(Long id, UsuarioDTO usuarioDTO){
-        Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
-        if(usuarioExistente.isPresent()){
-            Usuario usuarioAtualizado = usuarioMapper.toEntity(usuarioDTO);
-            usuarioAtualizado.setId(id);
-            Usuario usuarioSalvo = usuarioRepository.save(usuarioAtualizado);
-            return usuarioMapper.toDTO(usuarioSalvo);
-        }
-        return null;
+
+    @Transactional
+    public UsuarioDTO atualizaUsuario(Long id, UsuarioDTO dto) {
+        Usuario usuarioExistente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado pelo ID: " + id));
+
+        Grupo grupo = grupoRepository.findById(dto.getGrupoId())
+                .orElseThrow(() -> new ResourceNotFoundException("Grupo não encontrado pelo ID: " + dto.getGrupoId()));
+
+        Usuario atualizado = UsuarioMapper.toEntity(dto, grupo);
+        atualizado.setId(usuarioExistente.getId());
+
+        return usuarioMapper.toDTO(usuarioRepository.save(atualizado));
     }
 
-    public void deletarUsuarioPorId(Long id){
-        usuarioRepository.deleteById(id);
+
+    @Transactional
+    public void deletaUsuarioPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado pelo ID: " + id));
+        usuarioRepository.delete(usuario);
     }
 }
