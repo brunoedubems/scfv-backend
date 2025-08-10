@@ -1,7 +1,5 @@
 package br.com.brunoedubems.scfv_backend.dto;
 
-import br.com.brunoedubems.scfv_backend.entity.Grupo;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

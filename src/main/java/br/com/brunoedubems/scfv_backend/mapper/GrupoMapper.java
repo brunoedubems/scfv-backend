@@ -2,11 +2,9 @@ package br.com.brunoedubems.scfv_backend.mapper;
 
 import br.com.brunoedubems.scfv_backend.dto.GrupoDTO;
 import br.com.brunoedubems.scfv_backend.entity.Grupo;
-import br.com.brunoedubems.scfv_backend.entity.Usuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component

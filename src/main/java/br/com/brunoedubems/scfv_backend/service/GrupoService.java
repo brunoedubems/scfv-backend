@@ -1,15 +1,11 @@
 package br.com.brunoedubems.scfv_backend.service;
 
 import br.com.brunoedubems.scfv_backend.dto.GrupoDTO;
-import br.com.brunoedubems.scfv_backend.dto.UsuarioDTO;
 import br.com.brunoedubems.scfv_backend.entity.Grupo;
-import br.com.brunoedubems.scfv_backend.entity.Usuario;
-import br.com.brunoedubems.scfv_backend.exception.ResourceNotFoundException;
 import br.com.brunoedubems.scfv_backend.mapper.GrupoMapper;
 import br.com.brunoedubems.scfv_backend.repository.GrupoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;

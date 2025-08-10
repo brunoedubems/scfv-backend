@@ -1,7 +1,5 @@
 package br.com.brunoedubems.scfv_backend.dto;
 
-import br.com.brunoedubems.scfv_backend.entity.Usuario;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,6 @@
 package br.com.brunoedubems.scfv_backend.controller;
 
 import br.com.brunoedubems.scfv_backend.dto.GrupoDTO;
-import br.com.brunoedubems.scfv_backend.dto.UsuarioDTO;
 import br.com.brunoedubems.scfv_backend.service.GrupoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
