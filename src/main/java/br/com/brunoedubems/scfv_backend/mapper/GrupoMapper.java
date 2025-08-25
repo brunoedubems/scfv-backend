@@ -1,13 +1,14 @@
 package br.com.brunoedubems.scfv_backend.mapper;
 
-import br.com.brunoedubems.scfv_backend.dto.GrupoDTO;
+import br.com.brunoedubems.scfv_backend.controller.request.GrupoRequest;
+import br.com.brunoedubems.scfv_backend.controller.response.GrupoResponse;
+import br.com.brunoedubems.scfv_backend.controller.response.UsuarioResponse;
 import br.com.brunoedubems.scfv_backend.entity.Grupo;
-import br.com.brunoedubems.scfv_backend.entity.Usuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -15,28 +16,27 @@ public class GrupoMapper {
 
     private final UsuarioMapper usuarioMapper;
 
-    public GrupoDTO toDTO(Grupo grupo) {
-        GrupoDTO dto = new GrupoDTO();
-        dto.setId(grupo.getId());
-        dto.setNome(grupo.getNome());
-        dto.setTecnico(grupo.getTecnico());
-        dto.setFaixaEtaria(grupo.getFaixaEtaria());
+    public GrupoResponse toGrupoResponse(Grupo grupo) {
 
-        if (grupo.getUsuarios() != null) {
-            dto.setUsuarios(grupo.getUsuarios().stream()
-                    .map(usuarioMapper::toDTO)
-                    .collect(Collectors.toList()));
-        }
-        return dto;
+        List<UsuarioResponse> usuarios = Optional.ofNullable(grupo.getUsuarios())
+                .stream()
+                .flatMap(List::stream)
+                .map(UsuarioMapper::toUsuarioResponse)
+                .toList();
+        return new GrupoResponse(
+                grupo.getId(),
+                grupo.getNome(),
+                grupo.getTecnico(),
+                grupo.getFaixaEtaria(),
+                usuarios
+        );
     }
 
-    public Grupo toEntity(GrupoDTO dto) {
+    public Grupo toEntity(GrupoRequest grupoRequest) {
         Grupo grupo = new Grupo();
-        grupo.setId(dto.getId());
-        grupo.setNome(dto.getNome());
-        grupo.setTecnico(dto.getTecnico());
-        grupo.setFaixaEtaria(dto.getFaixaEtaria());
-        grupo.setUsuarios(null);
+        grupo.setNome(grupoRequest.nome());
+        grupo.setTecnico(grupoRequest.tecnico());
+        grupo.setFaixaEtaria(grupoRequest.faixaEtaria());
         return grupo;
     }
 

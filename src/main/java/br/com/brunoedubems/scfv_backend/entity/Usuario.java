@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,52 +23,60 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O nome é obrigatório")
-    @Size(max = 100, message = "O nome deve ter no máximo 100 caracteres")
+    @NotBlank
+    @Size(max = 100)
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @NotNull(message = "A data de nascimento é obrigatória")
-    @Past(message = "A data de nascimento deve estar no passado")
+    @NotNull
+    @Past
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    @NotBlank(message = "O CPF é obrigatório")
-    @Size(min = 11, max = 11, message = "O CPF deve ter exatamente 11 dígitos")
-    @Pattern(regexp = "\\d{11}", message = "O CPF deve conter apenas números")
+    @NotBlank
+    @Size(min = 11, max = 11)
+    @Pattern(regexp = "\\d{11}")
     @Column(unique = true, nullable = false, length = 11)
     private String cpf;
 
-    @NotBlank(message = "O NIS é obrigatório")
-    @Size(min = 11, max = 11, message = "O NIS deve ter exatamente 11 dígitos")
-    @Pattern(regexp = "\\d{11}", message = "O NIS deve conter apenas números")
+    @NotBlank
+    @Size(min = 11, max = 11)
+    @Pattern(regexp = "\\d{11}")
     @Column(unique = true, nullable = false, length = 11)
     private String nis;
 
-    @Size(max = 20, message = "O RG deve ter no máximo 20 caracteres")
+    @Size(max = 20)
     @Column(length = 20)
     private String rg;
 
-    @Size(max = 10, message = "O sexo deve ter no máximo 10 caracteres")
+    @Size(max = 10)
     @Column(length = 10)
     private String sexo;
 
-    @Size(max = 20, message = "O telefone deve ter no máximo 20 caracteres")
+    @Size(max = 20)
     @Column(length = 20)
     private String telefone;
 
-    @Size(max = 100, message = "O nome da mãe deve ter no máximo 100 caracteres")
+    @Size(max = 100)
     @Column(name = "nome_mae", length = 100)
     private String nomeMae;
 
-    @Size(max = 100, message = "O nome do responsável deve ter no máximo 100 caracteres")
+    @Size(max = 100)
     @Column(name = "nome_responsavel", length = 100)
     private String nomeResponsavel;
 
+    @Column(nullable = false)
     private boolean prioritario;
 
-    @ManyToOne
-    @JoinColumn(name = "group_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Grupo grupo;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "usuario_situacoes",
+            joinColumns = @JoinColumn(name = "usuario_id")
+    )
+    @Column(name = "situacao", length = 50)
+    private Set<String> situacoes = new HashSet<>();
 
 }
