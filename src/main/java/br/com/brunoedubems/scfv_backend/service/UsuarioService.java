@@ -1,6 +1,7 @@
 package br.com.brunoedubems.scfv_backend.service;
 
 import br.com.brunoedubems.scfv_backend.controller.request.UsuarioRequest;
+import br.com.brunoedubems.scfv_backend.controller.response.UsuarioResponse;
 import br.com.brunoedubems.scfv_backend.entity.Grupo;
 import br.com.brunoedubems.scfv_backend.entity.Usuario;
 import br.com.brunoedubems.scfv_backend.mapper.UsuarioMapper;
@@ -27,8 +28,8 @@ public class UsuarioService {
 //    }
 
     @Transactional
-    public Usuario save(UsuarioRequest usuarioRequest) {
-        Usuario usuario = UsuarioMapper.toUsuario(usuarioRequest);
+    public UsuarioResponse inserir(UsuarioRequest usuarioRequest) {
+        Usuario usuarioNovo = usuarioMapper.toUsuario(usuarioRequest);
 
         if (usuarioRequest.grupoId() != null) {
             Grupo grupo = grupoRepository
@@ -36,9 +37,10 @@ public class UsuarioService {
                     .orElseThrow(() -> new EntityNotFoundException(
                             "Grupo não encontrado: " + usuarioRequest.grupoId()
                     ));
-            usuario.setGrupo(grupo);
+            usuarioNovo.setGrupo(grupo);
         }
-        return usuarioRepository.save(usuario);
+        Usuario usuarioSalvo = usuarioRepository.save(usuarioNovo);
+        return usuarioMapper.toUsuarioResponse(usuarioSalvo);
     }
 
 

@@ -31,9 +31,9 @@ public class UsuarioController {
 
     @PostMapping()
     public ResponseEntity<UsuarioResponse> inserir( @RequestBody UsuarioRequest usuarioRequest) {
-        Usuario usuarioSalvo = usuarioService.save(usuarioRequest);
+        UsuarioResponse usuarioSalvo = usuarioService.inserir(usuarioRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(UsuarioMapper.toUsuarioResponse(usuarioSalvo));
+                .body(usuarioSalvo);
     }
 
 //    @PutMapping("/{id}")

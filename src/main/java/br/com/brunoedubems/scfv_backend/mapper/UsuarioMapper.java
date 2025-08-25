@@ -14,42 +14,39 @@ public class UsuarioMapper {
     private UsuarioMapper() {
     }
 
-    public static Usuario toUsuario(UsuarioRequest r) {
-        Usuario u = new Usuario();
-        u.setNome(r.nome());
-        u.setDataNascimento(r.dataNascimento());
-        u.setCpf(r.cpf());
-        u.setNis(r.nis());
-        u.setRg(r.rg());
-        u.setSexo(r.sexo());
-        u.setTelefone(r.telefone());
-        u.setNomeMae(r.nomeMae());
-        u.setNomeResponsavel(r.nomeResponsavel());
-        u.setPrioritario(r.prioritario());
-
-        if (Objects.nonNull(r.situacoes())) {
-            u.setSituacoes(new HashSet<>(r.situacoes()));
+    public Usuario toUsuario(UsuarioRequest usuarioRequest) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(usuarioRequest.nome());
+        usuario.setDataNascimento(usuarioRequest.dataNascimento());
+        usuario.setCpf(usuarioRequest.cpf());
+        usuario.setNis(usuarioRequest.nis());
+        usuario.setRg(usuarioRequest.rg());
+        usuario.setSexo(usuarioRequest.sexo());
+        usuario.setTelefone(usuarioRequest.telefone());
+        usuario.setNomeMae(usuarioRequest.nomeMae());
+        usuario.setNomeResponsavel(usuarioRequest.nomeResponsavel());
+        usuario.setPrioritario(usuarioRequest.prioritario());
+        if (Objects.nonNull(usuarioRequest.situacoes())) {
+            usuario.setSituacoes(new HashSet<>(usuarioRequest.situacoes()));
         }
-
-        // NÃO setar grupo aqui: responsabilidade da Service
-        return u;
+        return usuario;
     }
 
-    public static UsuarioResponse toUsuarioResponse(Usuario u) {
+    public UsuarioResponse toUsuarioResponse(Usuario usuario) {
         return new UsuarioResponse(
-                u.getId(),
-                u.getNome(),
-                u.getDataNascimento(),
-                u.getCpf(),
-                u.getNis(),
-                u.getRg(),
-                u.getSexo(),
-                u.getTelefone(),
-                u.getNomeMae(),
-                u.getNomeResponsavel(),
-                u.getGrupo() != null ? u.getGrupo().getId() : null,
-                u.isPrioritario(),
-                u.getSituacoes()
+               usuario.getId(),
+               usuario.getNome(),
+               usuario.getDataNascimento(),
+               usuario.getCpf(),
+               usuario.getNis(),
+               usuario.getRg(),
+               usuario.getSexo(),
+               usuario.getTelefone(),
+               usuario.getNomeMae(),
+               usuario.getNomeResponsavel(),
+               usuario.getGrupo() != null ? usuario.getGrupo().getId() : null,
+               usuario.isPrioritario(),
+               usuario.getSituacoes()
         );
     }
 }
