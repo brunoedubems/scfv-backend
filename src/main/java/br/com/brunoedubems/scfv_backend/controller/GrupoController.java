@@ -19,6 +19,7 @@ public class GrupoController {
     private final GrupoService grupoService;
     private final GrupoMapper grupoMapper;
 
+
     @GetMapping()
     public ResponseEntity<List<GrupoResponse>> mostrarTodosOsGrupos() {
         List<GrupoResponse> grupos = grupoService.listarGrupos();

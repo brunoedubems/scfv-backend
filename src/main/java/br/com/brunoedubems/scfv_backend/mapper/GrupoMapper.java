@@ -21,7 +21,7 @@ public class GrupoMapper {
         List<UsuarioResponse> usuarios = Optional.ofNullable(grupo.getUsuarios())
                 .stream()
                 .flatMap(List::stream)
-                .map(UsuarioMapper::toUsuarioResponse)
+                .map(usuarioMapper::toUsuarioResponse)
                 .toList();
         return new GrupoResponse(
                 grupo.getId(),

@@ -8,6 +8,7 @@ import br.com.brunoedubems.scfv_backend.repository.GrupoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +20,12 @@ public class GrupoService {
     private final GrupoMapper grupoMapper;
 
     public GrupoResponse inserir(GrupoRequest grupoRequest) {
-        Grupo grupo = grupoMapper.toEntity(grupoRequest);
-        grupo = grupoRepository.save(grupo);
-        return grupoMapper.toGrupoResponse(grupo);
+        Grupo novoGrupo  = grupoMapper.toEntity(grupoRequest);
+        Grupo grupoSalvo = grupoRepository.save(novoGrupo);
+        return grupoMapper.toGrupoResponse(grupoSalvo);
     }
 
+    @Transactional(readOnly = true)
     public List<GrupoResponse> listarGrupos() {
         return grupoRepository.findAll().stream().map(grupoMapper::toGrupoResponse).toList();
     }
@@ -41,7 +43,6 @@ public class GrupoService {
 
         return null; // (pode lançar exceção em vez de retornar null)
     }
-
     public void deletarGrupoPorId(Long id) {
         Grupo grupo = grupoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Grupo não encontrado com id: " + id));
