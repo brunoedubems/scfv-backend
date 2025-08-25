@@ -2,7 +2,6 @@ package br.com.brunoedubems.scfv_backend.controller;
 
 import br.com.brunoedubems.scfv_backend.controller.request.GrupoRequest;
 import br.com.brunoedubems.scfv_backend.controller.response.GrupoResponse;
-import br.com.brunoedubems.scfv_backend.entity.Grupo;
 import br.com.brunoedubems.scfv_backend.mapper.GrupoMapper;
 import br.com.brunoedubems.scfv_backend.service.GrupoService;
 import lombok.RequiredArgsConstructor;
@@ -33,24 +32,22 @@ public class GrupoController {
                 .body(grupoNovo);
     };
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<?> alteraGrupoPorId(
-//            @PathVariable Long id,
-//            @RequestBody GrupoDTO grupoDTO) {
-//
-//        GrupoDTO grupo = grupoService.atualizaGrupo(id, grupoDTO);
-//
-//        if (grupo != null) {
-//            return ResponseEntity.ok(grupo);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                    .body("Grupo com id: " + id + " não existe");
-//        }
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deletaUsuarioPorId(@PathVariable Long id) {
-//        grupoService.deletarGrupoPorId(id);
-//        return ResponseEntity.noContent().build();
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<GrupoResponse> atualizar(
+            @PathVariable Long id,
+            @RequestBody GrupoRequest grupoRequest) {
+
+        GrupoResponse grupoResponse = grupoService.atualizar(id, grupoRequest);
+
+        if (grupoResponse == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(grupoResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletaUsuarioPorId(@PathVariable Long id) {
+        grupoService.deletarGrupoPorId(id);
+        return ResponseEntity.noContent().build();
+    }
 }
