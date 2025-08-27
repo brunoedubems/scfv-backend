@@ -8,7 +8,7 @@ import java.util.Set;
 public record UsuarioResponse(
         Long id,
         String nome,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy" )
         LocalDate dataNascimento,
         String cpf,
         String nis,
@@ -17,8 +17,8 @@ public record UsuarioResponse(
         String telefone,
         String nomeMae,
         String nomeResponsavel,
-        Long grupoId,
         boolean prioritario,
-        Set<String> situacoes
+        Set<String> situacoes,
+        GrupoSimplesResponse grupo
 ) {
 }
