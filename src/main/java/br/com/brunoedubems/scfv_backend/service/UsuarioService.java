@@ -38,7 +38,6 @@ public class UsuarioService {
         Usuario usuarioNovo = usuarioMapper.toUsuario(usuarioRequest);
 
         if (usuarioRequest.grupoId() != null) {
-            // getReferenceById retorna proxy sem ir ao DB, eficiente se só quer relacionar
             usuarioNovo.setGrupo(grupoRepository.getReferenceById(usuarioRequest.grupoId()));
         }
         Usuario usuarioSalvo = usuarioRepository.save(usuarioNovo);
@@ -69,12 +68,7 @@ public class UsuarioService {
             grupo = grupoRepository.findById(usuarioRequest.grupoId())
                     .orElseThrow(() -> new ResourceNotFoundException("Grupo não encontrado pelo ID: " + usuarioRequest.grupoId()));
         }
-
-        // Atualiza o usuário existente (entidade gerenciada)
         usuarioMapper.updateUsuario(usuarioExistente, usuarioRequest, grupo);
-
-        // Opcional: salvar explicitamente (não estritamente necessário dentro de @Transactional,
-        // mas é comum para deixar claro a intenção)
         Usuario salvo = usuarioRepository.save(usuarioExistente);
 
         return usuarioMapper.toUsuarioResponse(salvo);
@@ -83,21 +77,16 @@ public class UsuarioService {
 
     @Transactional
     public void deletaUsuario(Long id) {
-        // verifica existência (retorna 404 se não existir)
         if (!usuarioRepository.existsById(id)) {
             throw new ResourceNotFoundException("Usuário não encontrado pelo ID: " + id);
         }
 
         try {
-            // deleteById evita carregar toda a entidade e coleções associadas
             usuarioRepository.deleteById(id);
-            // opcional: flush para garantir que a operação atinja o DB agora e possamos capturar erros
             usuarioRepository.flush();
         } catch (EmptyResultDataAccessException ex) {
-            // pode ocorrer em condições de corrida (outro request deletou antes)
             throw new ResourceNotFoundException("Usuário não encontrado pelo ID: " + id);
         } catch (DataIntegrityViolationException ex) {
-            // FK ou outras constraints impediram a exclusão
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não foi possível deletar o usuário: existem referências que impedem a remoção." );
         }
