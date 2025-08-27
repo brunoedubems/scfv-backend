@@ -1,13 +1,9 @@
 package br.com.brunoedubems.scfv_backend.controller.response;
 
-import java.util.List;
-
-public record GrupoResponse(
+public record GrupoSimplesResponse(
         Long id,
         String nome,
         String tecnico,
-        String faixaEtaria,
-        List<UsuarioResponse> usuarios
-
+        String faixaEtaria
 ) {
 }

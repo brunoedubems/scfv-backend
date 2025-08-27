@@ -2,6 +2,7 @@ package br.com.brunoedubems.scfv_backend.controller;
 
 import br.com.brunoedubems.scfv_backend.controller.request.GrupoRequest;
 import br.com.brunoedubems.scfv_backend.controller.response.GrupoResponse;
+import br.com.brunoedubems.scfv_backend.controller.response.UsuarioResponse;
 import br.com.brunoedubems.scfv_backend.mapper.GrupoMapper;
 import br.com.brunoedubems.scfv_backend.service.GrupoService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,14 @@ public class GrupoController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(grupoNovo);
     };
+    @GetMapping("/{id}")
+    public ResponseEntity<GrupoResponse> buscarGrupoPorId(@PathVariable Long id) {
+        GrupoResponse grupo = grupoService.listarGrupoPorId(id);
+        return ResponseEntity.ok(grupo);
+    }
+
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<GrupoResponse> atualizar(
