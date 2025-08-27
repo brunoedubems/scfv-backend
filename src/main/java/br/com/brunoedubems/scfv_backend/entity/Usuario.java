@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario" )
 public class Usuario {
 
     @Id
@@ -35,13 +35,13 @@ public class Usuario {
 
     @NotBlank
     @Size(min = 11, max = 11)
-    @Pattern(regexp = "\\d{11}")
+    @Pattern(regexp = "\\d{11}" )
     @Column(unique = true, nullable = false, length = 11)
     private String cpf;
 
     @NotBlank
     @Size(min = 11, max = 11)
-    @Pattern(regexp = "\\d{11}")
+    @Pattern(regexp = "\\d{11}" )
     @Column(unique = true, nullable = false, length = 11)
     private String nis;
 
@@ -74,7 +74,7 @@ public class Usuario {
     @ElementCollection
     @CollectionTable(
             name = "usuario_situacoes",
-            joinColumns = @JoinColumn(name = "usuario_id")
+            joinColumns = @JoinColumn(name = "usuario_id" )
     )
     @Column(name = "situacao", length = 50)
     private Set<String> situacoes = new HashSet<>();

@@ -43,5 +43,4 @@ public record UsuarioRequest(
         boolean prioritario,
 
         Set<String> situacoes
-) {
-}
+) {}
