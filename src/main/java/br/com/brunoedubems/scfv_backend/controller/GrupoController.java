@@ -2,9 +2,9 @@ package br.com.brunoedubems.scfv_backend.controller;
 
 import br.com.brunoedubems.scfv_backend.controller.request.GrupoRequest;
 import br.com.brunoedubems.scfv_backend.controller.response.GrupoResponse;
-import br.com.brunoedubems.scfv_backend.controller.response.UsuarioResponse;
 import br.com.brunoedubems.scfv_backend.mapper.GrupoMapper;
 import br.com.brunoedubems.scfv_backend.service.GrupoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,18 +28,17 @@ public class GrupoController {
     }
 
     @PostMapping()
-    public ResponseEntity<GrupoResponse> inserir(@RequestBody GrupoRequest grupoRequest) {
+    public ResponseEntity<GrupoResponse> inserir(@Valid @RequestBody GrupoRequest grupoRequest) {
         GrupoResponse grupoNovo = grupoService.inserir(grupoRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(grupoNovo);
-    };
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<GrupoResponse> buscarGrupoPorId(@PathVariable Long id) {
         GrupoResponse grupo = grupoService.listarGrupoPorId(id);
         return ResponseEntity.ok(grupo);
     }
-
-
 
 
     @PutMapping("/{id}")

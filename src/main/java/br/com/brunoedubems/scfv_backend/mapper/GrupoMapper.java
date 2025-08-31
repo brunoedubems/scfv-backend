@@ -14,25 +14,17 @@ import java.util.Set;
 @Component
 public class GrupoMapper {
 
+    private final UsuarioMapper usuarioMapper;
+
+    public GrupoMapper(UsuarioMapper usuarioMapper) {
+        this.usuarioMapper = usuarioMapper;
+    }
+
     public GrupoResponse toGrupoResponse(Grupo grupo) {
         List<UsuarioResponse> usuarios = Optional.ofNullable(grupo.getUsuarios())
                 .stream()
                 .flatMap(List::stream)
-                .map(u -> new UsuarioResponse(
-                        u.getId(),
-                        u.getNome(),
-                        u.getDataNascimento(),
-                        u.getCpf(),
-                        u.getNis(),
-                        u.getRg(),
-                        u.getSexo(),
-                        u.getTelefone(),
-                        u.getNomeMae(),
-                        u.getNomeResponsavel(),
-                        u.isPrioritario(),
-                        u.getSituacoes() == null ? Set.of() : u.getSituacoes(),
-                        null // evita recursão: não incluir GrupoResponse aqui
-                ))
+                .map(usuarioMapper::toUsuarioResponse)
                 .toList();
 
         return new GrupoResponse(

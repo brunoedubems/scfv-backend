@@ -88,7 +88,7 @@ public class UsuarioService {
             throw new ResourceNotFoundException("Usuário não encontrado pelo ID: " + id);
         } catch (DataIntegrityViolationException ex) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "Não foi possível deletar o usuário: existem referências que impedem a remoção." );
+                    "Não foi possível deletar o usuário: existem referências que impedem a remoção.");
         }
     }
 }

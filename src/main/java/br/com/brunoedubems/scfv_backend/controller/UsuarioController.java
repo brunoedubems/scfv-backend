@@ -34,7 +34,7 @@ public class UsuarioController {
 
 
     @PostMapping()
-    public ResponseEntity<UsuarioResponse> inserir(@RequestBody UsuarioRequest usuarioRequest) {
+    public ResponseEntity<UsuarioResponse> inserir(@Valid @RequestBody UsuarioRequest usuarioRequest) {
         UsuarioResponse usuarioSalvo = usuarioService.inserir(usuarioRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(usuarioSalvo);
