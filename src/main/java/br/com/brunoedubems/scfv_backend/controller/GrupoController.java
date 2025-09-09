@@ -23,8 +23,7 @@ public class GrupoController {
 
     @GetMapping()
     public ResponseEntity<List<GrupoResponse>> mostrarTodosOsGrupos() {
-        List<GrupoResponse> grupos = grupoService.listarGrupos();
-        return ResponseEntity.ok(grupos);
+        return ResponseEntity.ok(grupoService.listarGrupos());
     }
 
     @PostMapping()
@@ -40,17 +39,11 @@ public class GrupoController {
         return ResponseEntity.ok(grupo);
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<GrupoResponse> atualizar(
             @PathVariable Long id,
             @RequestBody GrupoRequest grupoRequest) {
-
         GrupoResponse grupoResponse = grupoService.atualizar(id, grupoRequest);
-
-        if (grupoResponse == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(grupoResponse);
     }
 
