@@ -5,34 +5,27 @@ import br.com.brunoedubems.scfv_backend.controller.response.GrupoResponse;
 import br.com.brunoedubems.scfv_backend.controller.response.GrupoSimplesResponse;
 import br.com.brunoedubems.scfv_backend.controller.response.UsuarioResponse;
 import br.com.brunoedubems.scfv_backend.entity.Grupo;
+import br.com.brunoedubems.scfv_backend.entity.Usuario;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Component
 public class GrupoMapper {
 
     private final UsuarioMapper usuarioMapper;
-
     public GrupoMapper(UsuarioMapper usuarioMapper) {
         this.usuarioMapper = usuarioMapper;
     }
 
     public GrupoResponse toGrupoResponse(Grupo grupo) {
-        List<UsuarioResponse> usuarios = Optional.ofNullable(grupo.getUsuarios())
-                .stream()
-                .flatMap(List::stream)
-                .map(usuarioMapper::toUsuarioResponse)
-                .toList();
-
         return new GrupoResponse(
                 grupo.getId(),
                 grupo.getNome(),
                 grupo.getTecnico(),
                 grupo.getFaixaEtaria(),
-                usuarios
+                mapUsuarios(grupo.getUsuarios())
         );
     }
 
@@ -52,4 +45,16 @@ public class GrupoMapper {
                 grupo.getFaixaEtaria()
         );
     }
+
+    private List<UsuarioResponse> mapUsuarios(List<Usuario> usuarios) {
+        return Optional.ofNullable(usuarios)
+                .stream()
+                .flatMap(List::stream)
+                .map(usuarioMapper::toUsuarioResponse)
+                .toList();
+    }
+
+
+
+
 }
